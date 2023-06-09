@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 // Menambahkan data
-app.get("/api/products", (req, res) => {
+app.get("/api/products", authenticateToken, (req, res) => {
   const { name, page, limit } = req.query;
   let results = db;
 
