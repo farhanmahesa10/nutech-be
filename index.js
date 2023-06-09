@@ -12,15 +12,15 @@ server.use(cors());
 // server.use('/api', jsonServer.defaults());
 server.use("/api", jsonServer.router("db.json"));
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`API listening on PORT ${PORT} `);
 });
 
-app.get("/", (req, res) => {
+server.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
 
-app.get("/about", (req, res) => {
+server.get("/about", (req, res) => {
   res.send("This is my about route..... ");
 });
 
