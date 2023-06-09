@@ -1,5 +1,5 @@
 var express = require("express");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 var app = express();
 var cors = require("cors");
 const db = require("./data/db.json");
@@ -86,79 +86,80 @@ app.delete("/api/products/:id", (req, res) => {
     res.status(404).json({ error: "Data not found" });
   }
 });
-app.post("/api/login", (req, res) => {
-  // Di sini, Anda dapat melakukan otentikasi pengguna, seperti memeriksa kredensial yang diberikan
 
-  // Contoh pemeriksaan sederhana
-  const { username, password } = req.body;
+// app.post("/api/login", (req, res) => {
+//   // Di sini, Anda dapat melakukan otentikasi pengguna, seperti memeriksa kredensial yang diberikan
 
-  if (username === "admin" && password === "1234") {
-    // Jika otentikasi berhasil, buat token JWT
-    const token = generateAccessToken({ username });
-    const refreshToken = jwt.sign({ username }, secretKey, {
-      expiresIn: "50m",
-    });
+//   // Contoh pemeriksaan sederhana
+//   const { username, password } = req.body;
 
-    res.json({ token, refreshToken });
-  } else {
-    // Jika otentikasi gagal
-    res.status(401).json({ error: "Invalid credentials" });
-  }
-});
+//   if (username === "admin" && password === "1234") {
+//     // Jika otentikasi berhasil, buat token JWT
+//     const token = generateAccessToken({ username });
+//     const refreshToken = jwt.sign({ username }, secretKey, {
+//       expiresIn: "50m",
+//     });
 
-// Endpoint Refresh Token
-app.post("/api/refresh-token", (req, res) => {
-  const refreshToken = req.body.refreshToken;
+//     res.json({ token, refreshToken });
+//   } else {
+//     // Jika otentikasi gagal
+//     res.status(401).json({ error: "Invalid credentials" });
+//   }
+// });
 
-  if (refreshToken == null) {
-    return res.status(401).json({ error: "Refresh token is required" });
-  }
+// // Endpoint Refresh Token
+// app.post("/api/refresh-token", (req, res) => {
+//   const refreshToken = req.body.refreshToken;
 
-  jwt.verify(refreshToken, secretKey, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: "Invalid refresh token" });
-    }
+//   if (refreshToken == null) {
+//     return res.status(401).json({ error: "Refresh token is required" });
+//   }
 
-    const token = generateAccessToken({ username: user.username });
-    res.json({ token });
-  });
-});
+//   jwt.verify(refreshToken, secretKey, (err, user) => {
+//     if (err) {
+//       return res.status(403).json({ error: "Invalid refresh token" });
+//     }
 
-// Middleware untuk memeriksa keberadaan dan validitas token
-function authenticateToken(req, res, next) {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (token == null) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+//     const token = generateAccessToken({ username: user.username });
+//     res.json({ token });
+//   });
+// });
 
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) {
-      if (err.name === "TokenExpiredError") {
-        return res.status(401).json({ error: "Expired token" });
-      } else {
-        return res.status(403).json({ error: "Invalid token" });
-      }
-    }
-    const decodedToken = jwt.verify(token, secretKey);
+// // Middleware untuk memeriksa keberadaan dan validitas token
+// function authenticateToken(req, res, next) {
+//   const token = req.headers.authorization?.split(" ")[1];
+//   if (token == null) {
+//     return res.status(401).json({ error: "Unauthorized" });
+//   }
 
-    // Mendapatkan waktu saat ini
-    const currentTime = Math.floor(Date.now() / 1000);
+//   jwt.verify(token, secretKey, (err, user) => {
+//     if (err) {
+//       if (err.name === "TokenExpiredError") {
+//         return res.status(401).json({ error: "Expired token" });
+//       } else {
+//         return res.status(403).json({ error: "Invalid token" });
+//       }
+//     }
+//     const decodedToken = jwt.verify(token, secretKey);
 
-    // Memeriksa apakah token telah kedaluwarsa
-    if (decodedToken.exp < currentTime) {
-      // Token telah kedaluwarsa
-      return false;
-    }
+//     // Mendapatkan waktu saat ini
+//     const currentTime = Math.floor(Date.now() / 1000);
 
-    req.user = user;
-    next();
-  });
-}
+//     // Memeriksa apakah token telah kedaluwarsa
+//     if (decodedToken.exp < currentTime) {
+//       // Token telah kedaluwarsa
+//       return false;
+//     }
 
-// Fungsi untuk menghasilkan access token
-function generateAccessToken(user) {
-  return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
-}
+//     req.user = user;
+//     next();
+//   });
+// }
+
+// // Fungsi untuk menghasilkan access token
+// function generateAccessToken(user) {
+//   return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
+// }
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
