@@ -85,7 +85,25 @@ app.delete("/api/products/:id", (req, res) => {
     res.status(404).json({ error: "Data not found" });
   }
 });
+app.post("/api/login", (req, res) => {
+  // Di sini, Anda dapat melakukan otentikasi pengguna, seperti memeriksa kredensial yang diberikan
 
+  // Contoh pemeriksaan sederhana
+  const { username, password } = req.body;
+
+  if (username === "admin" && password === "1234") {
+    // Jika otentikasi berhasil, buat token JWT
+    const token = generateAccessToken({ username });
+    const refreshToken = jwt.sign({ username }, secretKey, {
+      expiresIn: "50m",
+    });
+
+    res.json({ token, refreshToken });
+  } else {
+    // Jika otentikasi gagal
+    res.status(401).json({ error: "Invalid credentials" });
+  }
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
