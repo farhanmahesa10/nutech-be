@@ -1,6 +1,6 @@
 var express = require("express");
+// const jwt = require("jsonwebtoken");
 var app = express();
-const jwt = require("jsonwebtoken");
 var cors = require("cors");
 const db = require("./data/db.json");
 const port = 4000;
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 // Menambahkan data
-app.get("/api/products", (req, res) => {
+app.get("/api/products", authenticateToken, (req, res) => {
   const { name, page, limit } = req.query;
   let results = db;
 
@@ -86,6 +86,7 @@ app.delete("/api/products/:id", (req, res) => {
     res.status(404).json({ error: "Data not found" });
   }
 });
+
 app.post("/api/login", (req, res) => {
   // Di sini, Anda dapat melakukan otentikasi pengguna, seperti memeriksa kredensial yang diberikan
 
@@ -135,21 +136,31 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  jwt.verify(token, secretKey, (err, decoded) => {
+  jwt.verify(token, secretKey, (err, user) => {
     if (err) {
       if (err.name === "TokenExpiredError") {
-        return res.status(401).json({ error: "Token expired" });
+        return res.status(401).json({ error: "Expired token" });
       } else {
-        return res.status(401).json({ error: "Invalid token" });
+        return res.status(403).json({ error: "Invalid token" });
       }
     }
+    const decodedToken = jwt.verify(token, secretKey);
 
-    // Token valid, lanjutkan eksekusi
-    req.user = decoded;
+    // Mendapatkan waktu saat ini
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    // Memeriksa apakah token telah kedaluwarsa
+    if (decodedToken.exp < currentTime) {
+      // Token telah kedaluwarsa
+      return false;
+    }
+
+    req.user = user;
     next();
   });
 }
 
+// Fungsi untuk menghasilkan access token
 function generateAccessToken(user) {
   return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
 }
