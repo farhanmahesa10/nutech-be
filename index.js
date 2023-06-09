@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 // Menambahkan data
-app.get("/api/products", (req, res) => {
+app.get("/api/products", authenticateToken, (req, res) => {
   const { name, page, limit } = req.query;
   let results = db;
 
@@ -125,7 +125,7 @@ app.post("/api/refresh-token", (req, res) => {
 
 // Middleware untuk memeriksa keberadaan dan validitas token
 function authenticateToken(req, res, next) {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.headers?.authorization?.split(" ")[1];
   if (token == null) {
     return res.status(401).json({ error: "Unauthorized" });
   }
