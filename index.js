@@ -128,8 +128,8 @@ app.post("/api/refresh-token", (req, res) => {
 function authenticateToken(req, res, next) {
   let token = null;
   let header = req.headers;
-  if (header.authorization) {
-    token = token.authorization.split(" ")[1];
+  if (header.Authorization) {
+    token = token.Authorization.split(" ")[1];
   }
   if (token == null) {
     return res.status(401).json({ error: "Unauthorized" });
