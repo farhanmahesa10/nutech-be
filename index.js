@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 var cors = require("cors");
 const db = require("./data/db.json");
 const port = 4000;
+const secretKey = "secret-key-asjkdfbnjassdjkfhnsdjhfsdjf";
 // ...
 app.use(cors());
 app.use(express.json());
