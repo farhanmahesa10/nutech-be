@@ -1,8 +1,36 @@
 [
   {
-    "id": 1,
+    "id": 2,
     "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 1",
+    "nama": "Sepatu 2",
+    "harga_beli": 10000,
+    "harga_jual": 20000
+  },
+  {
+    "id": 3,
+    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+    "nama": "Sepatu 3",
+    "harga_beli": 10000,
+    "harga_jual": 20000
+  },
+  {
+    "id": 4,
+    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+    "nama": "Sepatu 3",
+    "harga_beli": 10000,
+    "harga_jual": 20000
+  },
+  {
+    "id": 5,
+    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+    "nama": "Sepatu 5",
+    "harga_beli": 10000,
+    "harga_jual": 20000
+  },
+  {
+    "id": 6,
+    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+    "nama": "Sepatu 6",
     "harga_beli": 10000,
     "harga_jual": 20000
   }

@@ -1,34 +1,68 @@
 var express = require("express");
-var server = express();
+var app = express();
 var cors = require("cors");
 const db = require("./data/db.json");
 const port = 4000;
 // ...
-server.use(cors());
-// You may want to mount JSON Server on a specific end-point, for example /api
+app.use(cors());
+app.use(express.json());
+// You may want to mount JSON Server on a specific end-point, for example /api/products
 // Optiona,l except if you want to have JSON Server defaults
-// server.use('/api', jsonServer.defaults());
-
-server.get("/", (req, res) => {
+// app.use('/api/products', jsonapp.defaults());
+function generateId() {
+  const currentIds = db.map((data) => data.id);
+  const maxId = Math.max(...currentIds);
+  return maxId + 1;
+}
+app.get("/", (req, res) => {
   res.send(`"Hello World!"`);
-});
-server.get("/api", (req, res) => {
-  res.json(db);
 });
 
 // Menambahkan data
-server.post("/api", (req, res) => {
-  const newData = req.body;
-  db.push(newData);
-  res.status(201).json(newData);
-});
+app.get("/api/products", (req, res) => {
+  const { name, page, limit } = req.query;
+  let results = db;
 
+  // Pencarian berdasarkan nama
+  if (name) {
+    results = results.filter((data) =>
+      data.name.toLowerCase().includes(name.toLowerCase())
+    );
+  }
+
+  // Urutan menurun berdasarkan ID
+  results.sort((a, b) => b.id - a.id);
+
+  // Paginasi
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const paginatedResults = results.slice(startIndex, endIndex);
+
+  res.json({
+    total: results.length,
+    page: Number(page),
+    limit: Number(limit),
+    data: paginatedResults,
+  });
+});
+app.post("/api/products", (req, res) => {
+  const newData = req.body;
+  const newId = generateId(); // Menghasilkan ID baru
+
+  const dataWithId = {
+    id: newId,
+    ...newData,
+  };
+
+  db.push(dataWithId);
+  res.status(201).json(dataWithId);
+});
 // Memperbarui data
-server.put("/api/:id", (req, res) => {
+app.put("/api/products/:id", (req, res) => {
   const id = req.params.id;
   const updatedData = req.body;
 
-  const dataIndex = db.findIndex((data) => data.id === id);
+  const dataIndex = db.findIndex((data) => data.id.toString() === id);
   if (dataIndex !== -1) {
     db[dataIndex] = { ...db[dataIndex], ...updatedData };
     res.json(db[dataIndex]);
@@ -38,10 +72,10 @@ server.put("/api/:id", (req, res) => {
 });
 
 // Menghapus data
-server.delete("/api/:id", (req, res) => {
+app.delete("/api/products/:id", (req, res) => {
   const id = req.params.id;
 
-  const dataIndex = db.findIndex((data) => data.id === id);
+  const dataIndex = db.findIndex((data) => data.id.toString() === id);
   if (dataIndex !== -1) {
     const deletedData = db[dataIndex];
     db.splice(dataIndex, 1);
@@ -51,8 +85,8 @@ server.delete("/api/:id", (req, res) => {
   }
 });
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-module.exports = server;
+module.exports = app;
