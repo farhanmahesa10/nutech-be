@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 // Menambahkan data
-app.get("/api/products", authenticateToken, (req, res) => {
+app.get("/api/products", (req, res) => {
   const { name, page, limit } = req.query;
   let results = db;
 
@@ -123,32 +123,32 @@ app.post("/api/refresh-token", (req, res) => {
   });
 });
 
-// Middleware untuk memeriksa keberadaan dan validitas token
-function authenticateToken(req, res, next) {
-  // const token = req.headers?.authorization?.split(" ")[1];
-  // if (token == null) {
-  //   return res.status(401).json({ error: "Unauthorized" });
-  // }
-  // jwt.verify(token, secretKey, (err, user) => {
-  //   if (err) {
-  //     if (err.name === "TokenExpiredError") {
-  //       return res.status(401).json({ error: "Expired token" });
-  //     } else {
-  //       return res.status(403).json({ error: "Invalid token" });
-  //     }
-  //   }
-  //   const decodedToken = jwt.verify(token, secretKey);
-  //   // Mendapatkan waktu saat ini
-  //   const currentTime = Math.floor(Date.now() / 1000);
-  //   // Memeriksa apakah token telah kedaluwarsa
-  //   if (decodedToken.exp < currentTime) {
-  //     // Token telah kedaluwarsa
-  //     return false;
-  //   }
-  //   req.user = user;
-  //   next();
-  // });
-}
+// // Middleware untuk memeriksa keberadaan dan validitas token
+// function authenticateToken(req, res, next) {
+//   // const token = req.headers?.authorization?.split(" ")[1];
+//   // if (token == null) {
+//   //   return res.status(401).json({ error: "Unauthorized" });
+//   // }
+//   // jwt.verify(token, secretKey, (err, user) => {
+//   //   if (err) {
+//   //     if (err.name === "TokenExpiredError") {
+//   //       return res.status(401).json({ error: "Expired token" });
+//   //     } else {
+//   //       return res.status(403).json({ error: "Invalid token" });
+//   //     }
+//   //   }
+//   //   const decodedToken = jwt.verify(token, secretKey);
+//   //   // Mendapatkan waktu saat ini
+//   //   const currentTime = Math.floor(Date.now() / 1000);
+//   //   // Memeriksa apakah token telah kedaluwarsa
+//   //   if (decodedToken.exp < currentTime) {
+//   //     // Token telah kedaluwarsa
+//   //     return false;
+//   //   }
+//   //   req.user = user;
+//   //   next();
+//   // });
+// }
 
 function generateAccessToken(user) {
   return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
