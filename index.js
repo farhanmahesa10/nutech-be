@@ -126,25 +126,28 @@ app.post("/api/refresh-token", (req, res) => {
 
 // Middleware untuk memeriksa keberadaan dan validitas token
 function authenticateToken(req, res, next) {
-  const header = req.headers;
-  const token = header.authorization;
-  // if (token == null) {
-  //   return res.status(401).json({ error: "Unauthorized" });
-  // }
+  let token = null;
+  let header = req.headers;
+  if (header.authorization) {
+    token = token.authorization.split(" ")[1];
+  }
+  if (token == null) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
-  // jwt.verify(token, secretKey, (err, decoded) => {
-  //   if (err) {
-  //     if (err.name === "TokenExpiredError") {
-  //       return res.status(401).json({ error: "Token expired" });
-  //     } else {
-  //       return res.status(401).json({ error: "Invalid token" });
-  //     }
-  //   }
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError") {
+        return res.status(401).json({ error: "Token expired" });
+      } else {
+        return res.status(401).json({ error: "Invalid token" });
+      }
+    }
 
-  //   // Token valid, lanjutkan eksekusi
-  //   req.user = decoded;
-  //   next();
-  // });
+    // Token valid, lanjutkan eksekusi
+    req.user = decoded;
+    next();
+  });
 }
 
 function generateAccessToken(user) {
