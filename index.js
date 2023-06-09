@@ -1,6 +1,6 @@
 var express = require("express");
-var app = express();
 const jwt = require("jsonwebtoken");
+var app = express();
 var cors = require("cors");
 const db = require("./data/db.json");
 const port = 4000;
@@ -86,6 +86,7 @@ app.delete("/api/products/:id", (req, res) => {
     res.status(404).json({ error: "Data not found" });
   }
 });
+
 app.post("/api/login", (req, res) => {
   // Di sini, Anda dapat melakukan otentikasi pengguna, seperti memeriksa kredensial yang diberikan
 
@@ -102,11 +103,11 @@ app.post("/api/login", (req, res) => {
     res.json({ token, refreshToken });
   } else {
     // Jika otentikasi gagal
-    res.status(401).json({ error: "Invalid credentials" });
+    res.status(403).json({ error: "Invalid credentials" });
   }
 });
 
-// Endpoint Refresh Token
+// // Endpoint Refresh Token
 app.post("/api/refresh-token", (req, res) => {
   const refreshToken = req.body.refreshToken;
 
@@ -128,8 +129,9 @@ app.post("/api/refresh-token", (req, res) => {
 function authenticateToken(req, res, next) {
   let token = null;
   let header = req.headers;
-  if (header.Authorization) {
-    token = token.Authorization.split(" ")[1];
+  if (header.authorization) {
+    // console.log(header.authorization);
+    token = header.authorization.split(" ")[1];
   }
   if (token == null) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -159,6 +161,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
+// Fungsi untuk menghasilkan access token
 function generateAccessToken(user) {
   return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
 }
