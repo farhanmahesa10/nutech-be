@@ -104,6 +104,10 @@ app.post("/api/login", (req, res) => {
     res.status(401).json({ error: "Invalid credentials" });
   }
 });
+
+function generateAccessToken(user) {
+  return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
+}
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
