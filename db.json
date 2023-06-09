@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+      "nama": "Sepatu 1",
+      "harga_beli": 10000,
+      "harga_jual": 20000
+    },
+    {
+      "id": 1,
+      "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+      "nama": "Sepatu 2",
+      "harga_beli": 50000,
+      "harga_jual": 60000
+    },
+    {
+      "id": 1,
+      "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
+      "nama": "Sepatu 3",
+      "harga_beli": 90000,
+      "harga_jual": 100000
+    }
+  ]
+}
