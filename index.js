@@ -1,19 +1,47 @@
-var express = require("express");
-var server = express();
-var cors = require("cors");
-const port = 4000;
-// ...
-server.use(cors());
-// You may want to mount JSON Server on a specific end-point, for example /api
-// Optiona,l except if you want to have JSON Server defaults
-// server.use('/api', jsonServer.defaults());
+const express = require("express");
+const app = express();
+const db = require("./data/db.json"); // diasumsikan db.json berada dalam direktori 'data'
 
-server.get("/", (req, res) => {
-  res.send(`"Hello World!"`);
+app.use(express.json());
+
+// Mendapatkan data
+app.get("/api", (req, res) => {
+  res.json(db);
 });
 
-server.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+// Menambahkan data
+app.post("/api", (req, res) => {
+  const newData = req.body;
+  db.push(newData);
+  res.status(201).json(newData);
 });
 
-module.exports = server;
+// Memperbarui data
+app.put("/api/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+
+  const dataIndex = db.findIndex((data) => data.id === id);
+  if (dataIndex !== -1) {
+    db[dataIndex] = { ...db[dataIndex], ...updatedData };
+    res.json(db[dataIndex]);
+  } else {
+    res.status(404).json({ error: "Data not found" });
+  }
+});
+
+// Menghapus data
+app.delete("/api/:id", (req, res) => {
+  const id = req.params.id;
+
+  const dataIndex = db.findIndex((data) => data.id === id);
+  if (dataIndex !== -1) {
+    const deletedData = db[dataIndex];
+    db.splice(dataIndex, 1);
+    res.json(deletedData);
+  } else {
+    res.status(404).json({ error: "Data not found" });
+  }
+});
+
+module.exports = app;
