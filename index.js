@@ -125,11 +125,10 @@ app.post("/api/refresh-token", (req, res) => {
 
 // Middleware untuk memeriksa keberadaan dan validitas token
 function authenticateToken(req, res, next) {
-  const token = req.headers?.authorization?.split(" ")[1];
-  if (token == null) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
+  // const token = req.headers?.authorization?.split(" ")[1];
+  // if (token == null) {
+  //   return res.status(401).json({ error: "Unauthorized" });
+  // }
   // jwt.verify(token, secretKey, (err, user) => {
   //   if (err) {
   //     if (err.name === "TokenExpiredError") {
@@ -139,16 +138,13 @@ function authenticateToken(req, res, next) {
   //     }
   //   }
   //   const decodedToken = jwt.verify(token, secretKey);
-
   //   // Mendapatkan waktu saat ini
   //   const currentTime = Math.floor(Date.now() / 1000);
-
   //   // Memeriksa apakah token telah kedaluwarsa
   //   if (decodedToken.exp < currentTime) {
   //     // Token telah kedaluwarsa
   //     return false;
   //   }
-
   //   req.user = user;
   //   next();
   // });
