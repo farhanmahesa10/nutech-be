@@ -12,7 +12,7 @@ server.use(cors());
 server.get("/", (req, res) => {
   res.send(`"Hello World!"`);
 });
-app.get("/api", (req, res) => {
+server.get("/api", (req, res) => {
   res.json(db);
 });
 server.listen(port, () => {
