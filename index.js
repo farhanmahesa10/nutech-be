@@ -19,19 +19,21 @@
 // module.exports = app;
 
 const express = require("express");
-const jsonServer = require("json-server");
+// const jsonServer = require("json-server");
 
 const app = express();
-const jsonRouter = jsonServer.router("db.json");
-const jsonMiddlewares = jsonServer.defaults();
+// const jsonRouter = jsonServer.router("db.json");
+// const jsonMiddlewares = jsonServer.defaults();
 
 const PORT = process.env.PORT || 4000;
 
 // Middleware JSON Server
-app.use("/api", jsonMiddlewares);
+// app.use("/api", jsonMiddlewares);
 
 // Rute JSON Server
-app.use("/api", jsonRouter);
+app.get("/", (req, res) => {
+  res.send("Hey this is my API running 🥳");
+});
 
 // Rute Express.js
 app.get("/", (req, res) => {
