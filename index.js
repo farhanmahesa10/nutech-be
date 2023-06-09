@@ -22,13 +22,13 @@ app.get("/", (req, res) => {
 
 // Menambahkan data
 app.get("/api/products", authenticateToken, (req, res) => {
-  const { name, page, limit } = req.query;
+  const { nama, page, limit } = req.query;
   let results = db;
 
   // Pencarian berdasarkan nama
-  if (name) {
+  if (nama) {
     results = results.filter((data) =>
-      data.name.toLowerCase().includes(name.toLowerCase())
+      data.nama.toLowerCase().includes(nama.toLowerCase())
     );
   }
 
