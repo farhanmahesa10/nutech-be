@@ -125,8 +125,8 @@ app.post("/api/refresh-token", (req, res) => {
 });
 
 // Middleware untuk memeriksa keberadaan dan validitas token
-function authenticateToken(req, res) {
-  const token = req?.headers;
+function authenticateToken(req, res, next) {
+  const token = req.headers;
   // if (token == null) {
   //   return res.status(401).json({ error: "Unauthorized" });
   // }
