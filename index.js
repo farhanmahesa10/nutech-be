@@ -163,7 +163,7 @@ function authenticateToken(req, res, next) {
 
 // Fungsi untuk menghasilkan access token
 function generateAccessToken(user) {
-  return jwt.sign(user, secretKey, { expiresIn: "10s" }); // Token berlaku selama 15 menit
+  return jwt.sign(user, secretKey, { expiresIn: "15s" }); // Token berlaku selama 15 menit
 }
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
