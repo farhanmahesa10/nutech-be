@@ -47,7 +47,7 @@ app.get("/api/products", authenticateToken, (req, res) => {
     data: paginatedResults,
   });
 });
-app.post("/api/products", (req, res) => {
+app.post("/api/products", authenticateToken, (req, res) => {
   const newData = req.body;
   const newId = generateId(); // Menghasilkan ID baru
 
@@ -60,7 +60,7 @@ app.post("/api/products", (req, res) => {
   res.status(201).json(dataWithId);
 });
 // Memperbarui data
-app.put("/api/products/:id", (req, res) => {
+app.put("/api/products/:id", authenticateToken, (req, res) => {
   const id = req.params.id;
   const updatedData = req.body;
 
@@ -74,7 +74,7 @@ app.put("/api/products/:id", (req, res) => {
 });
 
 // Menghapus data
-app.delete("/api/products/:id", (req, res) => {
+app.delete("/api/products/:id", authenticateToken, (req, res) => {
   const id = req.params.id;
 
   const dataIndex = db.findIndex((data) => data.id.toString() === id);
