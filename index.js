@@ -97,7 +97,7 @@ app.post("/api/login", (req, res) => {
     // Jika otentikasi berhasil, buat token JWT
     const token = generateAccessToken({ username });
     const refreshToken = jwt.sign({ username }, secretKey, {
-      expiresIn: "50m",
+      expiresIn: "10m",
     });
 
     res.json({ token, refreshToken });
