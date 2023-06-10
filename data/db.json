@@ -1,36 +1,49 @@
 [
   {
-    "id": 2,
+    "id": 1,
     "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 2",
+    "nama": "Buku starter",
+    "stok": "30",
     "harga_beli": 10000,
+    "harga_jual": 20000
+  },
+  {
+    "id": 2,
+    "foto": "https://hiatlaz.com/images/catalog/ep-1.webp",
+    "nama": "Buku 1",
+    "harga_beli": 10000,
+    "stok": "20",
     "harga_jual": 20000
   },
   {
     "id": 3,
-    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 3",
+    "foto": "https://hiatlaz.com/images/catalog/ep-2.webp",
+    "nama": "Buku 2",
     "harga_beli": 10000,
+    "stok": "40",
     "harga_jual": 20000
   },
   {
     "id": 4,
-    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 3",
+    "foto": "https://hiatlaz.com/images/catalog/ep-3.webp",
+    "nama": "Buku 3",
     "harga_beli": 10000,
+    "stok": "50",
     "harga_jual": 20000
   },
   {
     "id": 5,
-    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 5",
+    "foto": "https://hiatlaz.com/images/catalog/ep-4.webp",
+    "nama": "Buku 4",
     "harga_beli": 10000,
+    "stok": "60",
     "harga_jual": 20000
   },
   {
     "id": 6,
-    "foto": "https://hiatlaz.com/images/catalog/ep-starter.webp",
-    "nama": "Sepatu 6",
+    "foto": "https://hiatlaz.com/images/catalog/ep-5.webp",
+    "nama": "Buku 5",
+    "stok": "35",
     "harga_beli": 10000,
     "harga_jual": 20000
   }

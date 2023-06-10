@@ -50,7 +50,9 @@ app.get("/api/products", authenticateToken, (req, res) => {
 app.post("/api/products", authenticateToken, (req, res) => {
   const newData = req.body;
   const newId = generateId(); // Menghasilkan ID baru
-
+  if (db.find((r) => r.nama.toLowerCase() === newData.nama.toLowerCase())) {
+    return res.status(422).json({ message: "Nama Produk sudah ada" });
+  }
   const dataWithId = {
     id: newId,
     ...newData,
@@ -63,7 +65,15 @@ app.post("/api/products", authenticateToken, (req, res) => {
 app.put("/api/products/:id", authenticateToken, (req, res) => {
   const id = req.params.id;
   const updatedData = req.body;
-
+  if (
+    db.find(
+      (r) =>
+        r.nama.toLowerCase() === updatedData.nama.toLowerCase() &&
+        r.id !== parseInt(id)
+    )
+  ) {
+    return res.status(422).json({ message: "Nama Produk sudah ada" });
+  }
   const dataIndex = db.findIndex((data) => data.id.toString() === id);
   if (dataIndex !== -1) {
     db[dataIndex] = { ...db[dataIndex], ...updatedData };
