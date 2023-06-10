@@ -112,7 +112,7 @@ app.post("/api/refresh-token", (req, res) => {
   const refreshToken = req.body.refreshToken;
 
   if (refreshToken == null) {
-    return res.status(401).json({ error: "Refresh token is required" });
+    return res.status(403).json({ error: "No token found" });
   }
 
   jwt.verify(refreshToken, secretKey, (err, user) => {
@@ -134,7 +134,7 @@ function authenticateToken(req, res, next) {
     token = header.authorization.split(" ")[1];
   }
   if (token == null) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(403).json({ error: "Unauthorized" });
   }
 
   jwt.verify(token, secretKey, (err, user) => {
